@@ -1,0 +1,39 @@
+MIPS Lexathon UI
+
+Print initial greeting
+
+Call function top retrieve intial letters
+
+Call function to scramble letters
+
+subroutine to print:
+(if time is less than zero, then call 'end game' label)
+time passed
+print letters 1-3
+print letters 4-6
+print letters 7-9
+string that says "Type in a word, '1' to scramble letters, or '2' to give up"
+
+Wait for string input from user, (put it into stack if  count letters if necessary)
+
+Check to see if '1'; if so, then call scramble function
+
+Check to see if '2'; if so, then start 'end game' label
+
+Call function to check "dictionary" of already inputed words, if already use
+say "Already inputed word" and skip next line
+
+Call function to search for it in valid dictionary
+If valid, then give points and print "Correct!" 
+If not, then say "Invalid word"
+
+Call routine to print again
+
+end game label:
+print score
+print words validated
+print words missed
+
+
+
+
