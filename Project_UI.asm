@@ -1,13 +1,19 @@
 .data
+nl: .asciiz "\n"
 space: .asciiz "   "
 greeting: .asciiz "Welcome to Lexathon! Wait while the game loads..."
 countdownPrompt: .asciiz "Your game will start in 3 seconds.\n"
 countdownPrompt2: .asciiz " seconds\n"
 timerPrompt: .asciiz "         Time left: "
-userInput: .space 9
+inputPrompt: .asciiz "Type in a word using these letters including the middle letter.\n"
+goodWordPrompt: .asciiz "Valid Word!"
+badWordPrompt: .asciiz "This word isn't valid!"
+userInput: .space 10
 letterString: .space 9
+middleLetter: .space 2
 placeholder: .asciiz "jacocama"
 middleholder: .asciiz "b"
+
 
 .text
 main:
@@ -41,9 +47,48 @@ main:
 	
 	#Actual game starts here
 UI:	jal UIPrint #subroutine to print the UI
-	la $a0, userInput
+	la $a0, userInput #Get user input
+	la $a1, 10 #max input is 9
 	li $v0, 8
 	syscall
+	#Stop Time
+	li $a0, 0
+	li $v0, 30
+	syscall
+	sub $s0, $s0, $a0 #subtract to find how much time has passed, hold time
+	
+	li $s1, 0 #Use $s1 to count letters in string to choose library
+	li $s2, 0 #Use $s2 as a switch to check for middle letter
+	la $s3, middleLetter #$s3 will hold middle letter
+counter: lb $t0, ($a0)
+	beqz $t0, counterEnd
+	bne $t0, $s3, notMiddle #skip if not middle letter
+	li $s2, 1 #1 means middle letter is in user input
+notMiddle: addi $a0, $a0, 1 #Increment pointer and counter
+	addi $s1, $s1, 1
+counterEnd:
+	beqz $s2, badWord
+	li $a1, 0
+	addi $a1, $s1, 0 #load number of letters in argument to choose which file to check
+	jal wordCheck #Calls function to check word, stores if found (1) or not(0) in $a1
+	beqz $a1, badWord #If not found, bad word
+	la $a0, goodWordPrompt #Else, print valid prompt and add points and seconds to timer
+	li $v0, 4
+	#I will figure out the point system soon
+	addi $s0, $s0, 20000 #Add 20 seconds to the clock
+	li $v0, 30
+	syscall
+	add $s0, $s0, $a0 #Resume time
+	j UI #Loop
+badWord: la $a0, badWordPrompt
+	li $v0, 4
+	syscall
+	li $v0, 30
+	syscall
+	add $s0, $s0, $a0 #Resume time
+	j UI
+
+
 
 #subroutines to make coding quicker
 quickPrint:  li $v0, 4
@@ -114,7 +159,7 @@ UIPrint:
 	
 
 timeCheck:
-	andi $a0, $a0, 0
+	li $a0, 0
 	li $v0, 30
 	syscall
 	sub $a0, $s0, $a0 #subtract to find how much time has passed
@@ -130,14 +175,12 @@ timeCheck:
 startup: #placeholder function until implementation
 	la $s1, letterString
 	la $s2, placeholder
-	li $s3, 0
 	copyDataLoop:  
    		lb $t0, ($s2) # get character at address  
-   		beq $s3, 8, endCopy #end if reached the end
+   		beqz $t0, endCopy #end if reached the end
    		sb $t0, ($s1) # else store current character 
    		addi $s2, $s2, 1 #move pointers for both strings
-   		addi $s1, $s1, 1 
-   		addi $s3, $s3, 1               
+   		addi $s1, $s1, 1          
    		li $v0, 4
    		la $a0, letterString
    		j copyDataLoop # loop 
@@ -147,5 +190,8 @@ startup: #placeholder function until implementation
 		lb $t0, ($s2)
 		sb $t0, ($s1)
 		jr $ra
+wordCheck: #placeholder function
+	li $a1, 1
+	jr $ra
 end:
 	
