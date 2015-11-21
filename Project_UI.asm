@@ -4,14 +4,16 @@ space: .asciiz "   "
 greeting: .asciiz "Welcome to Lexathon! Wait while the game loads..."
 countdownPrompt: .asciiz "Your game will start in 3 seconds.\n"
 countdownPrompt2: .asciiz " seconds\n"
-timerPrompt: .asciiz "         Time left: "
-inputPrompt: .asciiz "Type in a word using these letters including the middle letter.\n"
-goodWordPrompt: .asciiz "Valid Word!"
-badWordPrompt: .asciiz "This word isn't valid!"
+timerPrompt: .asciiz "Time left: "
+inputPrompt: .asciiz "Type in a word using these letters including the middle letter or type 1 to scramble letters and 2 to give up!\n"
+goodWordPrompt: .asciiz "Valid Word!\n"
+badWordPrompt: .asciiz "This word isn't valid!\n"
+endTimePrompt: .asciiz "Sorry, you're out of time, "
+endingPrompt: .asciiz "Game Over!\nYour score is "
 userInput: .space 10
 letterString: .space 9
 middleLetter: .space 2
-placeholder: .asciiz "jacocama"
+placeholder: .asciiz "jacosuks"
 middleholder: .asciiz "b"
 
 
@@ -51,21 +53,31 @@ UI:	jal UIPrint #subroutine to print the UI
 	la $a1, 10 #max input is 9
 	li $v0, 8
 	syscall
+	
 	#Stop Time
 	li $a0, 0
 	li $v0, 30
 	syscall
 	sub $s0, $s0, $a0 #subtract to find how much time has passed, hold time
+	li $t1, 0 #Quick timer check
+	slt $t1, $t1, $s0 #end program if time runs out
+	beqz $t1, timerEnd
+	
 	
 	li $s1, 0 #Use $s1 to count letters in string to choose library
 	li $s2, 0 #Use $s2 as a switch to check for middle letter
 	la $s3, middleLetter #$s3 will hold middle letter
+	lb $s3, ($s3)
+	la $a0, userInput
 counter: lb $t0, ($a0)
 	beqz $t0, counterEnd
+	beq $t0, 49, scramble #If user wants to reorder letters
+	beq $t0, 50, end #End if user gives up
 	bne $t0, $s3, notMiddle #skip if not middle letter
 	li $s2, 1 #1 means middle letter is in user input
 notMiddle: addi $a0, $a0, 1 #Increment pointer and counter
 	addi $s1, $s1, 1
+	j counter #loop
 counterEnd:
 	beqz $s2, badWord
 	li $a1, 0
@@ -74,6 +86,7 @@ counterEnd:
 	beqz $a1, badWord #If not found, bad word
 	la $a0, goodWordPrompt #Else, print valid prompt and add points and seconds to timer
 	li $v0, 4
+	syscall
 	#I will figure out the point system soon
 	addi $s0, $s0, 20000 #Add 20 seconds to the clock
 	li $v0, 30
@@ -89,7 +102,12 @@ badWord: la $a0, badWordPrompt
 	j UI
 
 
-
+scramble: #Where the letters will randomize in order
+	
+	li $v0, 30 #Resume time
+	syscall
+	add $s0, $s0, $a0 
+	j UI #Loop
 #subroutines to make coding quicker
 quickPrint:  li $v0, 4
 	     la $a0, ($a1)
@@ -98,9 +116,6 @@ quickPrint:  li $v0, 4
 UIPrint:
 	andi $s1, $s1, 0 #clear $s1 and use it to hold ra
 	addi $s1, $ra, 0 
-	la $a0, timerPrompt #print timerPrompt and time/check time
-	li $v0, 4
-	syscall
 	jal timeCheck
 	la $t0, letterString #start printing board with string
 	la $t1, middleLetter #and middle letter
@@ -162,9 +177,15 @@ timeCheck:
 	li $a0, 0
 	li $v0, 30
 	syscall
-	sub $a0, $s0, $a0 #subtract to find how much time has passed
-	div $a0, $a0, 1000 #change from milliseconds to seconds
-	beqz $a0, end #end program if time runs out
+	sub $t0, $s0, $a0 #subtract to find how much time has passed
+	div $t0, $t0, 1000 #change from milliseconds to seconds
+	#li $t1, 0
+	#slt $t1, $t1, $t0 #end program if time runs out
+	#beqz $t1, end
+	la $a0, timerPrompt #print timerPrompt and time/check time
+	li $v0, 4
+	syscall
+	move $a0, $t0
 	li $v0, 1 #print time
 	syscall
 	li $v0, 4
@@ -193,5 +214,13 @@ startup: #placeholder function until implementation
 wordCheck: #placeholder function
 	li $a1, 1
 	jr $ra
+
+timerEnd:
+	la $a0, endTimePrompt
+	li $v0, 4
+	syscall
 end:
+	la $a0, endingPrompt
+	li $v0, 4
+	syscall
 	
