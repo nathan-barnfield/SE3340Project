@@ -3,18 +3,20 @@ nl: .asciiz "\n"
 space: .asciiz "   "
 greeting: .asciiz "Welcome to Lexathon! Wait while the game loads..."
 countdownPrompt: .asciiz "Your game will start in 3 seconds.\n"
-countdownPrompt2: .asciiz " seconds\n"
+timerPrompt2: .asciiz " seconds\n"
 timerPrompt: .asciiz "Time left: "
+scorePrompt: .asciiz "Score: "
 inputPrompt: .asciiz "Type in a word using these letters including the middle letter or type 1 to scramble letters and 2 to give up!\n"
 goodWordPrompt: .asciiz "Valid Word!\n"
 badWordPrompt: .asciiz "This word isn't valid!\n"
 endTimePrompt: .asciiz "Sorry, you're out of time, "
 endingPrompt: .asciiz "Game Over!\nYour score is "
+fullWordPrompt: .asciiz "Your nine letter word was: "
 userInput: .space 10
+fullWord: .space 11
 letterString: .space 9
 middleLetter: .space 2
-placeholder: .asciiz "jacosuks"
-middleholder: .asciiz "b"
+placeholder: .asciiz "jacobsuks"
 
 
 .text
@@ -46,6 +48,8 @@ main:
 	li $v0, 30 #call for system time again
 	syscall
 	add $s0, $s0, $a0 #add system time to initial time (this is when the 'timer' starts)
+	
+	li $s4, 0 #$s4 holds score
 	
 	#Actual game starts here
 UI:	jal UIPrint #subroutine to print the UI
@@ -87,7 +91,12 @@ counterEnd:
 	la $a0, goodWordPrompt #Else, print valid prompt and add points and seconds to timer
 	li $v0, 4
 	syscall
-	#I will figure out the point system soon
+	#Score System
+	li $t0, 0
+	addi $t0, $s0, 100000
+	mul $s4, $t0, $s1
+	div $s4, $s4, 100
+	
 	addi $s0, $s0, 20000 #Add 20 seconds to the clock
 	li $v0, 30
 	syscall
@@ -117,6 +126,16 @@ UIPrint:
 	andi $s1, $s1, 0 #clear $s1 and use it to hold ra
 	addi $s1, $ra, 0 
 	jal timeCheck
+	li $v0, 4 #Print Score
+	la $a0, scorePrompt
+	syscall
+	li $v0, 1
+	li $a0, 0
+	addi $a0, $s4, 0
+	syscall
+	li $v0, 4
+	la $a0, nl
+	syscall
 	la $t0, letterString #start printing board with string
 	la $t1, middleLetter #and middle letter
 	li $v0, 11
@@ -189,27 +208,38 @@ timeCheck:
 	li $v0, 1 #print time
 	syscall
 	li $v0, 4
-	la $a0, countdownPrompt2
+	la $a0, timerPrompt2
 	syscall
 	jr $ra
 
 startup: #placeholder function until implementation
 	la $s1, letterString
 	la $s2, placeholder
+	la $s3, fullWord
+	li $s4, 0 #Counter
 	copyDataLoop:  
    		lb $t0, ($s2) # get character at address  
    		beqz $t0, endCopy #end if reached the end
+   		beq $s4, 4, middle
    		sb $t0, ($s1) # else store current character 
-   		addi $s2, $s2, 1 #move pointers for both strings
-   		addi $s1, $s1, 1          
-   		li $v0, 4
-   		la $a0, letterString
+   		sb $t0, ($s3)
+   		addi $s2, $s2, 1 #move pointers for strings and counter
+   		addi $s3, $s3, 1 #fullWord
+   		addi $s4, $s4, 1 #counter
+   		addi $s1, $s1, 1 #placeholder
    		j copyDataLoop # loop 
-	endCopy: #ends and loads middle letter as well
-		la $s1, middleLetter
-		la $s2, middleholder
+	middle: #ends and loads middle letter as well
+		la $s5, middleLetter
 		lb $t0, ($s2)
-		sb $t0, ($s1)
+		sb $t0, ($s5)
+		sb $t0, ($s3)
+		addi $s3, $s3, 1 #fullWord
+		addi $s2, $s2, 1 #placeHolder
+		addi $s4, $s4, 1
+		j copyDataLoop
+	endCopy:	
+		la $a1, letterString
+		jal scramble
 		jr $ra
 wordCheck: #placeholder function
 	li $a1, 1
@@ -222,5 +252,16 @@ timerEnd:
 end:
 	la $a0, endingPrompt
 	li $v0, 4
+	syscall
+	li $a0, 1
+	addi $a0, $s4, 0
+	li $v0, 1
+	syscall
+	la $a0, nl
+	li $v0, 4
+	syscall
+	la $a0, fullWordPrompt
+	syscall
+	la $a0, fullWord
 	syscall
 	
