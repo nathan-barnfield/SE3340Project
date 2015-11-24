@@ -29,7 +29,7 @@ main:
 	#Call function to get pick word group & letters/middle letter
 	jal startup
 	
-	#Call function to scramble order of letters
+	
 	
 	#Make program sleep for 3 seconds for countdown
 	la $a0, countdownPrompt
@@ -43,13 +43,10 @@ main:
 	#Initialize register for time
 	addi $s0, $s0, 60000 #$s0 holds the starting time at 60 seconds
 	
-	#Start timer
-	andi $a0, $a0, 0 #clear $a0
-	li $v0, 30 #call for system time again
-	syscall
-	add $s0, $s0, $a0 #add system time to initial time (this is when the 'timer' starts)
 	
 	li $s4, 0 #$s4 holds score
+	
+	jal scramble#Call function to scramble order of letters and start timer
 	
 	#Actual game starts here
 UI:	jal UIPrint #subroutine to print the UI
@@ -102,7 +99,10 @@ counterEnd:
 	syscall
 	add $s0, $s0, $a0 #Resume time
 	j UI #Loop
-badWord: la $a0, badWordPrompt
+badWord: 
+	la $a1, nl
+	jal quickPrint
+	la $a0, badWordPrompt
 	li $v0, 4
 	syscall
 	li $v0, 30
@@ -189,6 +189,7 @@ UIPrint:
 	jal quickPrint		#New Line
 	li $v0, 4		#Print user input prompt
 	la $a0, inputPrompt
+	syscall
 	jr $s1 #end print, return to UI
 	
 
@@ -239,7 +240,6 @@ startup: #placeholder function until implementation
 		j copyDataLoop
 	endCopy:	
 		la $a1, letterString
-		jal scramble
 		jr $ra
 wordCheck: #placeholder function
 	li $a1, 1
