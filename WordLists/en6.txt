@@ -83,7 +83,6 @@ acuate
 acuity
 aculea
 acumen
-ad-lib
 adagio
 adalia
 adapid
@@ -155,7 +154,6 @@ afraid
 afreet
 afresh
 africa
-aft(a)
 agains
 agamic
 agamid
@@ -181,7 +179,6 @@ ahorse
 aiding
 aikido
 ailing
-air(a)
 airbus
 airing
 airman
@@ -222,7 +219,6 @@ aliter
 alitur
 alkali
 alkene
-all(a)
 allars
 allege
 allele
@@ -329,7 +325,6 @@ antony
 antrum
 anubis
 anuran
-any(a)
 anyhow
 aorist
 aortal
@@ -361,7 +356,6 @@ append
 apples
 applet
 appris
-apt(p)
 aqatic
 aquila
 arabia
@@ -559,7 +553,6 @@ azonic
 azores
 azotic
 azymia
-b-girl
 babble
 babies
 babish
@@ -780,8 +773,6 @@ bidens
 biface
 bifold
 biform
-big(a)
-big(p)
 bigamy
 bigeye
 bigger
@@ -940,7 +931,6 @@ boutez
 bouyei
 bovine
 bovini
-bow(a)
 bowels
 bowers
 bowery
@@ -1107,7 +1097,6 @@ byroom
 byssus
 byways
 byword
-c.o.d.
 cabala
 cabana
 cabman
@@ -1160,7 +1149,6 @@ camera
 camino
 camper
 campus
-can-do
 canada
 canape
 canard
@@ -1274,7 +1262,6 @@ cayman
 caymon
 cayuga
 cayuse
-cd-rom
 ceasar
 cebuan
 cecity
@@ -1724,7 +1711,6 @@ cupido
 cupola
 cupric
 cupule
-cur(a)
 curacy
 curate
 curdle
@@ -1754,7 +1740,6 @@ cussed
 custom
 custos
 custum
-cut-in
 cutlas
 cutler
 cutlet
@@ -2151,7 +2136,6 @@ dubash
 dubbin
 dublin
 dudeen
-due(p)
 dueler
 duello
 duenna
@@ -2200,7 +2184,6 @@ easing
 easter
 eatage
 eating
-ebb(a)
 ebbing
 eburin
 ecarte
@@ -2592,7 +2575,6 @@ fiscal
 fisher
 fishes
 fisted
-fit(p)
 fitful
 fitout
 fitted
@@ -2861,7 +2843,6 @@ geisha
 gelebt
 gemini
 gemote
-gen/gr
 gender
 genera
 geneva
@@ -2984,9 +2965,6 @@ gourde
 goutte
 govern
 gowned
-gr/dos
-gr/kat
-gr/pou
 graces
 graded
 grader
@@ -3353,7 +3331,6 @@ hymnal
 hyphen
 hypped
 hyssop
-i-beam
 iambic
 iberis
 icarus
@@ -3404,7 +3381,6 @@ impugn
 impune
 impure
 impute
-in-law
 inanna
 inborn
 inbred
@@ -3545,7 +3521,6 @@ jasper
 jassid
 jaunty
 jejune
-jell-o
 jennet
 jerboa
 jercks
@@ -3856,7 +3831,6 @@ letter
 lettre
 levant
 levels
-levi's
 levies
 levite
 levity
@@ -3874,7 +3848,6 @@ lichen
 licked
 lictor
 lidded
-lie-in
 ligand
 lights
 lignin
@@ -4279,8 +4252,6 @@ mflops
 miasma
 micmac
 micron
-mid(a)
-mid-on
 midair
 midday
 midden
@@ -4438,7 +4409,6 @@ movere
 movies
 moving
 mozart
-ms-dos
 muchos
 muckle
 mucoid
@@ -4584,7 +4554,6 @@ nettle
 neural
 neuter
 nevada
-new(a)
 newari
 newark
 newton
@@ -4615,7 +4584,6 @@ ninigi
 nipple
 nitric
 nivose
-no-hit
 nobile
 nobler
 nobody
@@ -4720,7 +4688,6 @@ odylic
 oemula
 oertop
 oeuvre
-off(p)
 offend
 offers
 office
@@ -4739,7 +4706,6 @@ oilman
 ointer
 ojibwa
 okapia
-old(a)
 oldest
 oldhat
 oldish
@@ -4751,10 +4717,8 @@ omelet
 ominia
 omnium
 omotic
-on-key
 onager
 ondine
-one(a)
 oneida
 onepan
 ononis
@@ -4831,8 +4795,6 @@ otitis
 ottawa
 oublic
 ouster
-out(a)
-out(p)
 outage
 outcry
 outfit
@@ -4849,7 +4811,6 @@ overgo
 ovibos
 ovular
 owlish
-own(a)
 oxalis
 oxcart
 oxford
@@ -5547,7 +5508,6 @@ ravage
 ravine
 raving
 ravish
-raw(a)
 razing
 razure
 razzia
@@ -5822,8 +5782,6 @@ rumble
 rummer
 rumple
 rumpus
-run-on
-run-up
 rundle
 runnel
 runner
@@ -5934,7 +5892,6 @@ sawney
 sawpit
 sawyer
 saxony
-say-so
 saying
 sbirro
 scabby
@@ -5996,7 +5953,6 @@ scutum
 scylla
 scythe
 sdeath
-sea(a)
 seabag
 sealed
 seaman
@@ -6084,8 +6040,6 @@ sesame
 seseli
 sesqui
 sestet
-set(p)
-set-to
 setoff
 setose
 setous
@@ -6177,7 +6131,6 @@ shroud
 shrunk
 shucks
 shudra
-shy(p)
 siaats
 sialia
 sialis
@@ -6244,7 +6197,6 @@ sirrah
 siskin
 sissoo
 sister
-sit-in
 sitcom
 sizzle
 skagit
@@ -6535,7 +6487,6 @@ stingy
 stirps
 stitch
 stiver
-sto/gr
 stocks
 stocky
 stodge
@@ -6878,7 +6829,6 @@ ticket
 tickle
 tidbit
 tidily
-tie-on
 tierce
 tiffin
 tights
@@ -6906,7 +6856,6 @@ tinkle
 tinned
 tinsel
 tinted
-tip-up
 tipcat
 tipped
 tippet
@@ -6929,7 +6878,6 @@ tmesis
 tobago
 tocsin
 toddle
-toe-in
 toecap
 toetoe
 togged
@@ -6951,7 +6899,6 @@ tonjon
 tonsil
 toothy
 tootle
-top(a)
 topeka
 topful
 tophet
@@ -6986,7 +6933,6 @@ townee
 townie
 towrow
 towzle
-tra-la
 tracer
 traces
 tracks
@@ -7123,7 +7069,6 @@ typify
 typing
 typist
 tyrant
-u-turn
 uakari
 uberty
 ubiety
@@ -7230,7 +7175,6 @@ unwind
 unwise
 unworn
 unwrap
-up-bow
 upbear
 upbeat
 upcast
@@ -7637,10 +7581,8 @@ wrongs
 wuther
 wynnea
 wyvern
-x-axis
 xrated
 xylene
-y-axis
 yaffle
 yahweh
 yammer
@@ -7663,7 +7605,6 @@ yonder
 yoruba
 yunnan
 yuppie
-z-axis
 zaffer
 zagreb
 zambia

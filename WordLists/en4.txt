@@ -1,4 +1,3 @@
-a-ok
 abba
 abbe
 abed
@@ -409,7 +408,6 @@ cauf
 caul
 cave
 cavy
-cd-r
 cebu
 cede
 cedi
@@ -738,7 +736,6 @@ dyer
 dyes
 dyke
 dyne
-e'en
 each
 earl
 earn
@@ -1254,7 +1251,6 @@ hyle
 hymn
 hype
 hypo
-i.e.
 iamb
 ibex
 ibis

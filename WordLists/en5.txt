@@ -733,7 +733,6 @@ butyl
 buxom
 buxus
 buyer
-bvd's
 bylaw
 byron
 byssa
@@ -963,7 +962,6 @@ clove
 clown
 cluck
 clump
-co-ed
 coach
 coaid
 coals
@@ -1153,7 +1151,6 @@ cycle
 cygne
 cynic
 czech
-d-day
 dabri
 dacca
 dacha
@@ -1536,7 +1533,6 @@ every
 evict
 evoke
 evove
-ex(a)
 exact
 exalt
 excel
@@ -1830,7 +1826,6 @@ fussy
 fusty
 futon
 fuzzy
-g-man
 gabel
 gable
 gabon
@@ -1968,7 +1963,6 @@ gouge
 gourd
 gouty
 grce
-gr/to
 grace
 grade
 grado
@@ -2145,7 +2139,6 @@ heure
 hevea
 hewer
 hexed
-hi-fi
 hider
 hight
 hiker
@@ -2229,7 +2222,6 @@ hymen
 hyoid
 hypha
 hyrax
-ibid.
 ibsen
 ichor
 icily
@@ -2264,8 +2256,6 @@ imide
 immix
 impel
 imply
-in(a)
-in(p)
 inane
 inani
 inapt
@@ -3116,8 +3106,6 @@ nixie
 nixon
 nizam
 njord
-no(a)
-no-go
 noahs
 nobis
 noble
@@ -3131,7 +3119,6 @@ noisy
 nolle
 nomad
 nomia
-non-u
 nonce
 nones
 nonny
@@ -3205,7 +3192,6 @@ omnes
 omnia
 omnib
 omnis
-on(p)
 onine
 onion
 onset
@@ -4199,7 +4185,6 @@ snort
 snout
 snowy
 snuff
-so(p)
 soapy
 soave
 sober
@@ -4473,8 +4458,6 @@ synod
 syria
 syrup
 syrus
-t-bar
-t-man
 tabby
 tabes
 tabid
@@ -4850,8 +4833,6 @@ unsex
 untie
 until
 unwed
-up(a)
-up(p)
 upper
 upset
 upupa
@@ -4877,7 +4858,6 @@ utter
 uveal
 uvula
 uzbek
-v-day
 vache
 vaduz
 vagal
@@ -5166,7 +5146,6 @@ yeild
 yemen
 yenta
 yield
-yo-yo
 yodel
 yokel
 young
