@@ -1,14 +1,75 @@
 .data 
+fin: 		.asciiz		"compiledWordList4.txt"
+fin1:		.asciiz 	"byteData5.dat"	
 .align 0
-userInput: .space 10
+completeWordList:	.space	3900000
 .align 0
-compareString: .space 12
+userInput: 	.space 		10
+.align 0
+compareString: 	.space		12
 .align 2
-seedJumpTable: 40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
+seedJumpTable:	.space		40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
 .align 2
-wordListAddr: .space 12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
+wordListAddr: 	.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
+.align 0
+testString:	.asciiz		"abaddon"
+newLine:	.asciiz 	"\n"
 .text
 
+#############################################################################################################
+li   $v0, 13       # system call for open file
+la   $a0, fin      # board file name
+li   $a1, 0        # Open for reading
+li   $a2, 0
+syscall            # open a file (file descriptor returned in $v0)
+move $s6, $v0      # save the file descriptor 
+
+#read from file
+li   $v0, 14       # system call for read from file
+move $a0, $s6      # file descriptor 
+la   $a1, completeWordList     # address of buffer to which to read
+li   $a2, 3900000   # hardcoded buffer length
+syscall            # read from file
+
+# Close the file 
+li   $v0, 16       # system call for close file
+move $a0, $s6      # file descriptor to close
+syscall            # close file
+
+##############################################################################################
+li   $v0, 13       # system call for open file
+la   $a0, fin1      # board file name
+li   $a1, 0        # Open for reading
+li   $a2, 0
+syscall            # open a file (file descriptor returned in $v0)				
+move $s6, $v0      # save the file descriptor 
+
+#read from file
+li   $v0, 14       # system call for read from file
+move $a0, $s6      # file descriptor 
+la   $a1, seedJumpTable     # address of buffer to which to read
+li   $a2, 40000     # hardcoded buffer length
+syscall            # read from file
+
+# Close the file 
+li   $v0, 16       # system call for close file
+move $a0, $s6      # file descriptor to close
+syscall            # close file
+
+
+
+#############################################################################################
+# main function for testing
+move $a0, $zero
+jal create_wordlist
+jal find
+
+move $a0, $v0
+li $v0, 1
+syscall
+j exit
+
+#############################################################################################################################################
 #################################################################
 #function: find
 # This Function assumes a word has been placed in userInput. The function compares the String to the strings placed in the new wordlist in the heap. It returns 1 in $v0 and places the word in the 
@@ -19,7 +80,15 @@ find:		la $t1, wordListAddr
 		lw $t2, 0($t1)			#store the address of the new wordlist
 		la $t4, compareString
 		
-CompareLoop:	 lbu $t5, 0($t2)			##grab next words first character (stores it if not end of list)
+compareLoop:	la $t4, compareString
+		lbu $t5, 0($t4)
+		beqz $t5, startCompare			##empty the compareString
+		sb $zero, 0($t4)
+		addi $t4, $t4, 1
+		j compareLoop
+		
+startCompare:	 la $t4, compareString			#load base compareString address
+		 lbu $t5, 0($t2)			##grab next words first character (stores it if not end of list)
 		 beq $t5, 30, findFailure		##checks to see if the list has been completeley searched. If it has, branch to findFailure
 		 sb $t5, 0($t4)
 		 addi $t2, $t2, 1
@@ -30,17 +99,27 @@ copyToStringLoop:	lbu $t5, 0($t2)
 			addi $t2, $t2, 1
 			addi $t4, $t4, 1
 			bne $t5, 10, copyToStringLoop		##keep looping until the new line character is reached
+	
+			
 			sb $zero, -1($t4)			##null the carriage return and new line characters from the compare string
 			sb $zero, -2($t4)
 			la $t4, compareString			##reset $t4 to base compareString address
-			la $t6, userInput			##reset/place address of user input into $t6
+			la $t6, testString#userInput			##reset/place address of user input into $t6
+			
+			#print string here
+			la $a0, compareString
+			li $v0, 4
+			syscall
+			la $a0, newLine
+			li $v0, 4
+			syscall
 			
 compareWordLoop:	lbu $t5, 0($t4)
 			beqz $t5, findSuccess			##compare the input and compare strings. Keep checking each character until the null character is reached.
 			addi $t4, $t4, 1			#increment compareString address	
 			lbu $t7, 0($t6)
 			addi $t6, $t6, 1
-			bne $t7, $t5, CompareLoop		##branch to the start of the word comparision loop if the 2 characters do not match
+			bne $t7, $t5, compareLoop		##branch to the start of the word comparision loop if the 2 characters do not match
 			j compareWordLoop			##loop back to compare the next two characters in the string
 			
 		 
@@ -65,7 +144,7 @@ finishCopyToFoundWords:li $t5, 13
 			addi $t2, $t2, 2
 			sb $t2, 8($t1)				##store the updated foundwords pointerback into memeory
 			la $t4, compareString
-			la $t2, userInput
+			la $t2, testString#userInput
 			
 nullCompareString:	lbu $t5, 0($t4)
 			beqz $t5, nullUserInput			##empty the compareString
@@ -88,7 +167,7 @@ findEnd:		li $v0, 1				##return successful
 ################################################################
 #Function: create_wordlist
 #This function takes a random number as an argument and uses that to index into the presearched list of words. The words are then taken and placed into a seperate memory location
-#that can be searched by the program. THis location will be located on the heap and will be allocated using srbk. This function places the wordlist address into wordListAddr for later retrieval
+#that can be searched by the program. This location will be located on the heap and will be allocated using srbk. This function places the wordlist address into wordListAddr for later retrieval
 # $a0 = random #
 ################################################################
 
@@ -114,8 +193,9 @@ create_wordlist:
 		la $t3, seedJumpTable
 		add $t3, $t3, $t1			## add the offset to the base address
 		lw $t4, 0($t3)				## retrieve the 9 letter word offset and place it in $t4
+		la $t3, completeWordList
+		add $t4, $t3, $t4			##store the address of the 9 letter word list to be retrieved in $t4
 		
-		#add $t3, $zero, $zero			## initialize the wordlist point to keep track of where the function is in the wordlist array
 		
 copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlist into the new wordlist
 		sb $t1, 0($t7)
@@ -125,6 +205,9 @@ copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlis
 		
 		
 		jr $ra					##return to caller
+		
+		
+exit:
 		
 		
 
