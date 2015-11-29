@@ -58,12 +58,28 @@ copyToFoundWords:	lbu $t5, 0($t4)
 			addi $t2, $t2, 1
 			j copyToFoundWords
 			
-finishCopyToFoundWords:	li $t5, 13
+finishCopyToFoundWords:li $t5, 13
 			sb $t5, 0($t2)				##add the carriage and new line characters onto the end of the string placed in FoundWords
 			li $t5, 10
 			sb $t5, 1($t2)
 			addi $t2, $t2, 2
-			li $v0, 1
+			sb $t2, 8($t1)				##store the updated foundwords pointerback into memeory
+			la $t4, compareString
+			la $t2, userInput
+			
+nullCompareString:	lbu $t5, 0($t4)
+			beqz $t5, nullUserInput			##empty the compareString
+			sb $zero, 0($t4)
+			addi $t4, $t4, 1
+			j nullCompareString
+			
+nullUserInput:		lbu $t5, 0($t2)
+			beqz $t5, findEnd
+			sb $zero, 0($t2)			##empty the userInput String
+			addi $t2, $t2, 1
+			j nullUserInput
+						
+findEnd:		li $v0, 1				##return successful
 			jr $ra
 				
 		
