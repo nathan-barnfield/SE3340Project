@@ -12,7 +12,7 @@ seedJumpTable:	.space		40000		#room for the offsets of 9 letter words in the wor
 .align 2
 wordListAddr: 	.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
 .align 0
-testString:	.asciiz		"abaddon"
+testString:	.asciiz		"thames"
 newLine:	.asciiz 	"\n"
 .text
 
@@ -60,7 +60,8 @@ syscall            # close file
 
 #############################################################################################
 # main function for testing
-move $a0, $zero
+li $a0, 3
+#move $a0, $zero
 jal create_wordlist
 jal find
 
