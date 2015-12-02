@@ -171,7 +171,7 @@ finishCopyToFoundWords: li $t5, 13
 			li $t5, 10
 			sb $t5, 1($t2)
 			addi $t2, $t2, 2
-			sb $t2, 8($t1)				##store the updated foundwords pointerback into memeory
+			sw $t2, 8($t1)				##store the updated foundwords pointerback into memeory
 			la $t4, compareString
 			la $t2, testString#userInput
 			
