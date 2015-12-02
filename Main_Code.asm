@@ -1,4 +1,17 @@
 .data
+#####################################################################
+# .data declarations from Nathan's portion
+fin: 			.asciiz				"compiledWordList4.txt"
+fin1:			.asciiz 			"byteData5.dat"	
+.align 0
+completeWordList:	.space		3900000
+.align 0
+compareString: 		.space		12
+.align 2
+seedJumpTable:		.space		40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
+.align 2
+wordListAddr: 		.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
+####################################################################
 nl: .asciiz "\n"
 space: .asciiz "   "
 greeting: .asciiz "Welcome to Lexathon! Wait while the game loads..."
@@ -265,3 +278,46 @@ end:
 	la $a0, fullWord
 	syscall
 	
+#############################################################################################################
+# FileInput code for inputing the byteCode data(9 letter indexs) and the wordlist
+#############################################################################################################
+fileInput:	li   $v0, 13       # system call for open file
+		la   $a0, fin      # board file name
+		li   $a1, 0        # Open for reading
+		li   $a2, 0
+		syscall            # open a file (file descriptor returned in $v0)
+		move $s6, $v0      # save the file descriptor 
+
+		#read from file
+		li   $v0, 14       # system call for read from file
+		move $a0, $s6      # file descriptor 
+		la   $a1, completeWordList     # address of buffer to which to read
+		li   $a2, 3900000   # hardcoded buffer length
+		syscall            # read from file
+
+		# Close the file 
+		li   $v0, 16       # system call for close file
+		move $a0, $s6      # file descriptor to close
+		syscall            # close file
+
+##############################################################################################
+		li   $v0, 13       # system call for open file
+		la   $a0, fin1      # board file name
+		li   $a1, 0        # Open for reading
+		li   $a2, 0
+		syscall            # open a file (file descriptor returned in $v0)				
+		move $s6, $v0      # save the file descriptor 
+
+		#read from file
+		li   $v0, 14       # system call for read from file
+		move $a0, $s6      # file descriptor 
+		la   $a1, seedJumpTable     # address of buffer to which to read
+		li   $a2, 40000     # hardcoded buffer length
+		syscall            # read from file
+
+		# Close the file 
+		li   $v0, 16       # system call for close file
+		move $a0, $s6      # file descriptor to close
+		syscall            # close file
+		jr $ra
+#############################################################################################

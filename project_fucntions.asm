@@ -5,8 +5,14 @@ fin1:		.asciiz 	"byteData5.dat"
 completeWordList:	.space	3900000
 .align 0
 userInput: 	.space 		10
+.align 2
+userStringLen:	.space		4
+userLen:	.asciiz		"UserLen:"
+compareLen:	.asciiz		"compareLen:"
 .align 0
 compareString: 	.space		12
+.align 0
+printString:	.space 		12
 .align 2
 seedJumpTable:	.space		40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
 .align 2
@@ -68,7 +74,6 @@ move $a0, $s6      # file descriptor to close
 syscall            # close file
 jr $ra
 
-
 #############################################################################################
 
 
@@ -82,12 +87,25 @@ jr $ra
 find:		la $t1, wordListAddr
 		lw $t2, 0($t1)			#store the address of the new wordlist
 		la $t4, compareString
+		#la $t9, userStringLen
+		la $t3, testString#userInput
+		add $t9, $zero, $zero
 		
-compareLoop:	la $t4, compareString
+stringLenLoop:	lbu $t5, 0($t3)
+		beqz $t5, compareLoop
+		addi $t3, $t3, 1			##this loop finds the # of letters in the userInputString
+		addi $t9, $t9, 1
+		
+		j stringLenLoop
+		
+compareLoop:	
+
+		la $t4, compareString
 		lbu $t5, 0($t4)
 		beqz $t5, startCompare			##empty the compareString
 		sb $zero, 0($t4)
 		addi $t4, $t4, 1
+		add $t8, $zero, $zero			##sets the compareString counter to 0
 		j compareLoop
 		
 startCompare:	 la $t4, compareString			#load base compareString address
@@ -96,13 +114,18 @@ startCompare:	 la $t4, compareString			#load base compareString address
 		 sb $t5, 0($t4)
 		 addi $t2, $t2, 1
 		 addi $t4, $t4, 1
+		 addi $t8, $t8, 1			##adds 1 to the compar string letter count
 		 
 copyToStringLoop:	lbu $t5, 0($t2)
 			sb $t5, 0($t4)
 			addi $t2, $t2, 1
 			addi $t4, $t4, 1
+			addi $t8, $t8, 1			##add 1 to the letter count of the compare string
 			bne $t5, 10, copyToStringLoop		##keep looping until the new line character is reached
-	
+			addi $t8, $t8, -2
+			
+			
+			bne $t8, $t9, compareLoop		##check if the words have the same amount of letters. If they don't, move on to the next word
 			
 			sb $zero, -1($t4)			##null the carriage return and new line characters from the compare string
 			sb $zero, -2($t4)
@@ -140,7 +163,7 @@ copyToFoundWords:	lbu $t5, 0($t4)
 			addi $t2, $t2, 1
 			j copyToFoundWords
 			
-finishCopyToFoundWords:li $t5, 13
+finishCopyToFoundWords: li $t5, 13
 			sb $t5, 0($t2)				##add the carriage and new line characters onto the end of the string placed in FoundWords
 			li $t5, 10
 			sb $t5, 1($t2)
@@ -209,7 +232,22 @@ copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlis
 		
 		jr $ra					##return to caller
 		
-		
+##############################################################################################################################################
+#Function: Print_found_words
+#This function will print all the found words that are located in the found words memory location.
+#Does not take any arguments and does not pass any values back.
+##############################################################################################################################################
+print_found_words:	la $t1, wordListAddr
+			la $t3, printString
+			lw $t1, 4($t1)
+			
+printLoop:		lbu $t2, 0($t1)
+			sb $t2, 0($t3)
+			addi $t1, $t1, 1
+			addi $t3, $t3, 1
+			
+			
+##############################################################################################################################################		
 exit:
 		
 		
