@@ -12,12 +12,23 @@ seedJumpTable:	.space		40000		#room for the offsets of 9 letter words in the wor
 .align 2
 wordListAddr: 	.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
 .align 0
-testString:	.asciiz		"thames"
+testString:	.asciiz		"shaman"
 newLine:	.asciiz 	"\n"
 .text
 
+# main function for testing
+jal fileInput
+li $a0, 3
+#move $a0, $zero
+jal create_wordlist
+jal find
+
+move $a0, $v0
+li $v0, 1
+syscall
+j exit
 #############################################################################################################
-li   $v0, 13       # system call for open file
+fileInput:li   $v0, 13       # system call for open file
 la   $a0, fin      # board file name
 li   $a1, 0        # Open for reading
 li   $a2, 0
@@ -55,20 +66,11 @@ syscall            # read from file
 li   $v0, 16       # system call for close file
 move $a0, $s6      # file descriptor to close
 syscall            # close file
-
+jr $ra
 
 
 #############################################################################################
-# main function for testing
-li $a0, 3
-#move $a0, $zero
-jal create_wordlist
-jal find
 
-move $a0, $v0
-li $v0, 1
-syscall
-j exit
 
 #############################################################################################################################################
 #################################################################
