@@ -32,6 +32,9 @@ jal find
 move $a0, $v0
 li $v0, 1
 syscall
+
+jal print_found_words
+
 j exit
 #############################################################################################################
 fileInput:li   $v0, 13       # system call for open file
@@ -242,10 +245,31 @@ print_found_words:	la $t1, wordListAddr
 			lw $t1, 4($t1)
 			
 printLoop:		lbu $t2, 0($t1)
+			beqz $t2, finishPrint
 			sb $t2, 0($t3)
 			addi $t1, $t1, 1
 			addi $t3, $t3, 1
+			bne $t2, 10, printLoop
 			
+			la $a0, printString
+			li $v0, 4
+			syscall
+			
+			la $t3 printString
+			
+			
+nullPrintString:	lbu $t5, 0($t3)
+			beqz $t5, nullPrintEnd
+			sb $zero, 0($t3)			##empty the userInput String
+			addi $t3, $t3, 1
+			j nullPrintString
+nullPrintEnd:		la $t3, printString
+			j printLoop			
+			
+			
+
+			
+finishPrint:	jr $ra	
 			
 ##############################################################################################################################################		
 exit:
