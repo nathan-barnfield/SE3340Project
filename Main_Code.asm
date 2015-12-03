@@ -16,7 +16,7 @@ completeWordList:	.space		3900000
 compareString: 		.space		12
 .align 0
 printString:		.space 		12
-
+genfin:			.asciiz		"finished generating"
 newWordList:		.space 		11000
 .align 2
 seedJumpTable:		.space		40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
@@ -58,7 +58,12 @@ main:
 	
 	#Call function to get pick word group & letters/middle letter
 	jal fileInput	#input thewordlist and word offset files.
-	li $a0, 3	##placeholder #. Need a random number to be entered here
+	##jal SeedGenerator
+	jal RandomNumber
+	la $t1 Rand
+	lw $a0, ($t1)
+	
+	#li $a0, 3	##placeholder #. Need a random number to be entered here
 	jal create_wordlist#startup
 	
 	
@@ -181,6 +186,7 @@ scramble: #Where the letters will randomize in order
 		lb $t9, ($t7)
 		sb $t8, ($t7)
 		sb $t8, ($t9)
+		#sb $t9, 
 	midjump:
 	subi $t2, $t2, 1
 	blt $t2, $zero, breakmod2nested
@@ -347,7 +353,8 @@ end:
 #############################################################################################################
 # FileInput code for inputing the byteCode data(9 letter indexs) and the wordlist
 #############################################################################################################
-fileInput:	
+fileInput:	addi $sp ,$sp, -4
+		sw $ra, ($sp)
 		#Loads seed data into completeWordList, to be overwritten once seed is obtained
 		li   $v0, 13       # system call for open file
 		la   $a0, fin2     # board file name
@@ -408,6 +415,8 @@ fileInput:
 		li   $v0, 16       # system call for close file
 		move $a0, $s6      # file descriptor to close
 		syscall            # close file
+		lw $ra, 0($sp)
+		addi $sp, $sp, 4
 		jr $ra
 #############################################################################################
 #Program Functions
@@ -637,7 +646,7 @@ finishPrint:	jr $ra						#jump back to the caller
 			
 ##############################################################################################################################################	
 SeedGenerator:  #save registries not in use, okay to use
-			subi $sp,$sp, -4
+			addi $sp,$sp, -4
 			sw $ra, 0($sp)
 			j gets
 	random:
@@ -645,10 +654,14 @@ SeedGenerator:  #save registries not in use, okay to use
 		li $a1, 1841 #upper limit of random number
 		li $v0, 42   #random
 		syscall
-		sll $t0, $a0, 9 #multiplies 1841 by 9, the size of 8 bytes plus \n
+		addi $t1, $zero, 9
+		#sll $t0, $a0, 9 #multiplies 1841 by 9, the size of 8 bytes plus \n
+		mult $a0, $t1
+		mflo $t0
+
 		jr $ra
 	gets:
-		la $23, completeWordList      #set base address of Seeds to s3
+		la $s3, completeWordList      #set base address of Seeds to s3
 		la $s1, SeedBuffer
 		jal random
 		add $s3, $s3, $a0
@@ -703,10 +716,14 @@ SeedGenerator:  #save registries not in use, okay to use
 		li $v0, 1
 		add $a0, $s2, $zero
 		syscall 
+		la $a0, newLine
+		li $v0, 4
+		syscall
 		la $t0, Seed
 		sw $s0, 0($t0)
 		lw $ra, 0($sp)
 		addi $sp, $sp, 4
+	
 		jr $ra
 RandomNumber:	#random number method
 		subi $sp,$sp, -4
@@ -727,6 +744,7 @@ RandomNumber:	#random number method
 		mfhi $t4
 		sw $t4, ($t3)
 		addi $sp, $sp, 4
+	
 		jr $ra
 exit:
 		li $v0, 10      #ends Program
