@@ -49,7 +49,7 @@ main:
 	syscall
 	
 	#Call function to get pick word group & letters/middle letter
-	jal fileInput
+	jal fileInput	#input thewordlist and word offset files.
 	li $a0, 3	##placeholder #. Need a random number to be entered here
 	jal create_wordlist#startup
 	
@@ -108,6 +108,9 @@ counterEnd:
 	li $a1, 0
 	addi $a1, $s1, 0 #load number of letters in argument to choose which file to check
 	jal find #Calls function to check word, stores if found (1) or not(0) in $a1
+	move $a0, $a1
+	li $v0, 1
+	syscall
 	beqz $a1, badWord #If not found, bad word
 	la $a0, goodWordPrompt #Else, print valid prompt and add points and seconds to timer
 	li $v0, 4
@@ -477,9 +480,6 @@ nullFoundWordsLoop:	sb $zero, 0($v0)
 		
 		add $t4, $t3, $t4			##store the address of the 9 letter word list to be retrieved in $t4
 		
-		move $a0, $t7
-		li $v0, 1
-		syscall
 		add $t3, $zero, $zero
 		
 copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlist into the new wordlist
@@ -560,3 +560,4 @@ nullPrintEnd:		la $t3, printString
 finishPrint:	jr $ra						#jump back to the caller
 			
 ##############################################################################################################################################	
+exit:
