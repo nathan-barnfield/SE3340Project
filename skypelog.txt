@@ -1,0 +1,328 @@
+[2015/10/21 19:10:12] *** irunonpho joined. ***
+[2015/10/21 19:10:58] *** irunonpho has renamed this conversation to "cs project" ***
+[2015/11/08 12:42:35] *** irunonpho added Jacob Camacho ***
+[2015/11/08 12:42:41] *** irunonpho added Nathan Barnfield ***
+[2015/11/08 12:42:46] irunonpho: Welcome to the cs project
+[2015/11/08 12:43:05] irunonpho: Welcome
+[2015/11/08 12:43:21] irunonpho: This is the chat where we'll have the call
+[2015/11/08 12:43:24] irunonpho: leave ideas
+[2015/11/08 12:43:26] irunonpho: leave files
+[2015/11/08 12:43:33] irunonpho: and leave useful links
+[2015/11/08 12:43:42] irunonpho: maybe back at 12:10
+[2015/11/08 13:04:40] Nathan Barnfield: yeah so like I said beforehand I have downloaded a word list that is like 200k+ words, so I will be cutting it down to wrods that are 4-9 letters long
+[2015/11/08 13:04:46] Nathan Barnfield: words*
+[2015/11/08 13:06:23] Nathan Barnfield: I will then lookup an algorithm to create words with the given letters so that we could make a temprorary dictionary that contains only the words that could be made by the 9 randomly generated letters.
+[2015/11/08 13:08:22] Nathan Barnfield: Hardest part will be getting all this into ASM
+[2015/11/08 13:08:58] Jacob Camacho: My friend said he found a project that puts all of the nine letter words in alphabetical order and then puts the smaller letter words under them. I'm sure differentiating the smaller words from the bigger words could be easy, but idk how youd find all the smaller words (manually or already find a premade dictionary like that)
+[2015/11/08 13:11:59] Nathan Barnfield: hmm, I dunno. For right now I'm just going to use CS1 to grep the dictionary file I have and pipe the result to a new text file
+[2015/11/08 13:12:26] Nathan Barnfield: Did you guys want to start a GitHub?
+[2015/11/08 13:13:23] Jacob Camacho: sure
+[2015/11/08 13:14:51] Nathan Barnfield: Ok, ill look into starting one up
+[2015/11/08 13:16:19] irunonpho: cool
+[2015/11/08 13:16:21] irunonpho: thanks jacob
+[2015/11/08 13:16:41] irunonpho: thanks nathan
+[2015/11/08 13:17:17] irunonpho: So can I can a recap on the roles?
+[2015/11/08 13:17:30] irunonpho: I'll try to fill in the gaps
+[2015/11/08 13:17:45] irunonpho: And I have some experience making games in c/c++
+[2015/11/08 13:17:49] irunonpho: but not assembly
+[2015/11/08 13:18:02] irunonpho: So I could probably make the "engine"
+[2015/11/08 13:18:24] irunonpho: so long as I get the dictionary
+[2015/11/08 13:18:26] irunonpho: I can start on the engine
+[2015/11/08 13:19:04] Jacob Camacho: im handling the UI and score/time
+[2015/11/08 13:20:37] Nathan Barnfield: DO you guys have GitHub accounts?
+[2015/11/08 13:21:36] Nathan Barnfield: https://github.com/nathan-barnfield/SE3340Project
+[2015/11/08 13:22:41] Jacob Camacho: do we need to request access to the project to edit or is just having the link fine?
+[2015/11/08 13:24:27] Nathan Barnfield: I believe you can request to commit changes but you can't actually do it without me approving it. If you have a GitHub account I can add you as a collaborator so you can do changes yourself
+[2015/11/08 13:26:02] Jacob Camacho: my username is snorhax
+[2015/11/08 13:27:09] Nathan Barnfield: Ok I added you
+[2015/11/08 13:27:43] Nathan Barnfield: yeah ill have the dictionary cut down soon, just have to figure out the regular expression to cut it down
+[2015/11/08 13:27:46] Nathan Barnfield: to size
+[2015/11/08 13:29:34] Nathan Barnfield: once I have it I will upload to the github
+[2015/11/08 13:30:57] Jacob Camacho: okay, im now really sure what to do since my jobs mostly include grabbing things from your guys' end to display. I guess I'll start looking up formatting, time keeping, score keeping etc.
+[2015/11/08 13:31:58] Nathan Barnfield: sounds good
+[2015/11/08 13:44:29] Jacob Camacho: alright, well ill be leaving soon, if I start writing code, im just going to assume im calling a label with jal that gives me a stack of nine letters unless im told otherwise
+[2015/11/08 13:51:05] Nathan Barnfield: I would think returning a true or false would be easier, you would just keep a copy of the word in your end and pass a copy of it to the function and the function searches the dictionary and if it finds it returns a 1 and if not returns a 0.
+[2015/11/08 13:52:24] Jacob Camacho: I was talking about getting the letters initially so I could display them
+[2015/11/08 13:53:38] Nathan Barnfield: oh derp
+[2015/11/08 13:53:39] Nathan Barnfield: yeha'
+[2015/11/19 19:10:43] Jacob Camacho: So I verified the 9 letter parent system in the game. When the game ends, it shows you the words you missed; the nine-letter word is always highlighted. So there's always a nine letter word
+[2015/11/19 21:23:19] Nathan Barnfield: Sounds good. And duc the github link is up in the chat
+[2015/11/20 19:58:36] irunonpho: thanks
+[2015/11/27 1:39:51] irunonpho: alright guys
+[2015/11/27 1:39:56] irunonpho: i'm going to go full speed on this
+[2015/11/27 1:39:58] irunonpho: this weekend
+[2015/11/27 1:49:49] Nathan Barnfield: Ive been working on it, i pretty much know what has to be done, im just having trouble finding an algorithm that will find all the words giving a string of characters in java
+[2015/11/27 18:50:35] Nathan Barnfield: Ok so the way that I was planning on doing this didnt work out too easy. The pre compiled list i made is 4.2 mb and the heap space is only 4mb large. I can split it up and place half on the stack and half in data, but thats statically having the words already searched and having the program just retrieving the precompiled list. I could try writing it to search at runtime instead if you guys want to do that
+[2015/11/27 18:58:13] Nathan Barnfield:  Uhh i actually might have lowered the size of the file below 4mb, nvm
+[2015/11/27 19:01:16] Jacob Camacho: Cool
+[2015/11/27 19:03:27] Nathan Barnfield: That was fine with you guys? Having the words presearched using java instead of searching during runtime?
+[2015/11/27 19:04:19] Nathan Barnfield: Its in that form, witg the 9 letter word then the words that match it underneath it and the records are broken with a special ascii character
+[2015/11/27 19:04:45] Jacob Camacho: Looks good to me
+[2015/12/01 22:56:07] irunonpho: hi dudes
+[2015/12/01 22:56:09] irunonpho: just go home
+[2015/12/01 23:19:56] Nathan Barnfield: Going to get some dinner. started puting some of my code into jacobs. The github is up in the convo
+[2015/12/02 21:46:28] irunonpho: add irunonpho
+[2015/12/02 21:46:29] irunonpho: on github
+[2015/12/02 21:51:24] Nathan Barnfield: One sec
+[2015/12/02 21:53:41] Nathan Barnfield: You're added as a collaberator.
+[2015/12/02 21:54:20] Nathan Barnfield: Right now im working on getting this main code fixed. For some reason its throwing a memory out of bounds error
+[2015/12/02 21:55:48] irunonpho: please upload it
+[2015/12/02 21:55:52] irunonpho: what's left to do btw?
+[2015/12/02 21:55:55] irunonpho: I'll tie up the loose ends
+[2015/12/02 22:01:06] Nathan Barnfield: A check to see if the user has chosen all the words.
+[2015/12/02 22:01:20] Nathan Barnfield: Passing a random number to the wordlist function
+[2015/12/02 22:01:40] irunonpho: ok
+[2015/12/02 22:01:43] irunonpho: got it
+[2015/12/02 22:01:50] irunonpho: reading over the code
+[2015/12/02 22:01:50] irunonpho: atm
+[2015/12/02 22:02:18] Nathan Barnfield: Im working on getting my code to start working again
+[2015/12/02 22:02:33] Nathan Barnfield: For some reason its not stopping when it should
+[2015/12/02 22:05:20] irunonpho: ok
+[2015/12/02 22:05:23] irunonpho: gotcha
+[2015/12/02 22:54:58] irunonpho: did you fix the main function yet?
+[2015/12/02 22:55:20] Nathan Barnfield: No still working on it
+[2015/12/02 23:24:26] Nathan Barnfield: Im drawing blanks on why my function isn't working like it is in ny test file. Its an address out of range error at line 492.
+[2015/12/02 23:24:48] irunonpho: hmmm
+[2015/12/02 23:24:58] irunonpho: let me look into it from the main
+[2015/12/02 23:30:24] Nathan Barnfield: I think ita not stopping at the RS charachter likes its supposed to and is instead trying to put the whole wordlist into the small 11kb  one that we use to search
+[0:32:45] irunonpho: progress?
+[0:37:54] irunonpho: mips has a randomizer built in
+[0:38:04] irunonpho: li $v0, 41
+[0:38:19] irunonpho: then do a syscall
+[0:39:38] Nathan Barnfield: Not much progress. And that number needs to be modded by 9000
+[0:39:47] irunonpho: gotcha
+[0:39:50] irunonpho: easy to implement
+[0:40:21] irunonpho: what we'll do is generate a random large prime number
+[0:40:23] irunonpho: as a seed
+[0:40:31] irunonpho: and then after that
+[0:40:36] irunonpho: take mod with 9000
+[0:40:39] irunonpho: repeat
+[0:40:43] irunonpho: for different number
+[0:40:45] irunonpho: each time
+[0:40:51] irunonpho: so we only need to call on the seed once
+[0:40:54] irunonpho: sounds good?
+[0:41:09] Nathan Barnfield: Yeah
+[0:41:20] irunonpho: what I was thinking
+[0:41:26] irunonpho: is that I make a list of large prime numbers
+[0:41:28] irunonpho: to be stored
+[0:41:35] irunonpho: then we get a random index
+[0:41:38] irunonpho: which gives us a seed
+[0:42:06] irunonpho: so we take that prime number
+[0:42:29] irunonpho: and we'll load the 9 letter word from it
+[0:42:33] irunonpho: and using the same prime number
+[0:42:47] irunonpho: we can use it to effectively scramble it
+[0:43:33] irunonpho: so we need a variable to keep track of the mod cycle
+[0:43:34] irunonpho: a counter
+[0:43:45] irunonpho: so that when a new player starts a game
+[0:43:56] irunonpho: player starts a new game*
+[0:44:03] irunonpho: it uses the same seed
+[0:44:15] irunonpho: but mods it the nth time it was called
+[0:44:36] irunonpho: computationally, maybe expensive
+[0:44:41] irunonpho: a bit expensive
+[0:44:44] irunonpho: but less expensive
+[0:44:45] irunonpho: then say
+[0:44:53] irunonpho: loading a new random number per cycle
+[0:45:24] irunonpho: waiting on your debugged main
+[0:45:28] irunonpho: to finish the implementation
+[0:45:36] irunonpho: I'll write a function though
+[0:46:14] irunonpho: we may be able to get away with not having to check all the words though
+[0:46:18] irunonpho: seeing as if
+[0:46:21] irunonpho: it's not feasible
+[0:46:26] irunonpho: I doubt the TA will check that
+[0:46:32] irunonpho: less effort
+[0:46:35] irunonpho: but if you want
+[0:46:38] irunonpho: I can still implement it
+[0:46:40] irunonpho: no skin off my bones
+[0:48:07] Nathan Barnfield: If ypu think you can do that, ok. Sounds a little complicated so you might just want to stick witg calling the random number and modding it. The words should be fine as they are, i just have to get the stupid thing working like it was in my original test file.
+[0:48:23] irunonpho: Yeah
+[0:48:38] irunonpho: you have a file IO function implemented
+[0:48:44] irunonpho: so I assume it's very feasible
+[0:49:00] irunonpho: It'll be much more efficient then performing the syscall
+[0:49:04] irunonpho: repeatedly
+[0:49:20] Nathan Barnfield: It works. But when i spliced my code with jacobs it refused to work
+[0:49:30] irunonpho: hmmm
+[0:49:46] irunonpho: Let me test it out then
+[0:49:54] irunonpho: There files online
+[0:49:56] irunonpho: so
+[0:50:12] irunonpho: We'd probably only need like
+[0:50:17] irunonpho: how many seeds?
+[0:50:32] irunonpho: I have a file that gives one million
+[0:50:38] irunonpho: large prime numbers
+[0:53:19] Nathan Barnfield: We dont have much space left after my wordlist and offset data. Only have like 20kb left in the data portion
+[0:53:35] irunonpho: ok
+[0:53:40] irunonpho: dw
+[0:53:52] irunonpho: we don't need too many seeds
+[1:00:09] Nathan Barnfield: Ok the project functions2 file i just uploaded shows my code working. The projectfunctions file does not work.
+[1:01:32] irunonpho: alright
+[1:01:46] irunonpho: so you couldn't get the address problem resolved?
+[1:02:09] Nathan Barnfield: Still working on it, though im running out of ideas as to why its happening
+[1:03:16] irunonpho: I've got 48 seeds
+[1:03:21] irunonpho: think we need more?
+[1:03:24] irunonpho: for a total of 1kb
+[1:03:27] irunonpho: not even 1kb
+[1:03:28] irunonpho: most likely
+[1:03:47] irunonpho: going to make a script
+[1:03:49] irunonpho: in c++
+[1:03:58] irunonpho: to take from the list
+[1:04:12] irunonpho: random amounts of seeds
+[1:04:27] irunonpho: goal is to make it at least 10kbs
+[1:04:35] irunonpho: is this acceptable
+[1:04:38] irunonpho: in terms of data?
+[1:07:01] Nathan Barnfield: You have about 20 kbs to work with
+[1:07:08] irunonpho: yeah
+[1:07:11] irunonpho: gonna go a bit under
+[1:07:17] irunonpho: seeing as if it'll be a lot of seeds
+[1:07:38] irunonpho: maybe I'll make it 15
+[1:07:51] irunonpho: if I make it 15 kbs
+[1:07:58] irunonpho: that's about 1875 seeds
+[1:08:04] irunonpho: I think that's a good number
+[1:08:30] irunonpho: 20kbs
+[1:08:33] irunonpho: exactly
+[1:08:39] irunonpho: should yield about 2500
+[1:08:44] irunonpho: 2500 is a pretty number
+[1:08:51] irunonpho: let me go for that then
+[1:14:12] Nathan Barnfield: If youthink up any ideas about why the copy loop in my create_wordlist function is not stoping at the rs character(30), lemme know
+[1:15:04] irunonpho: ok
+[1:15:08] irunonpho: I'll take a look at it
+[1:15:11] irunonpho: after I implement my function
+[1:36:14] Nathan Barnfield: I forgot to input the files before trying to run the create wordlist function. It sorta works now
+[1:36:28] Nathan Barnfield: Ill update the github
+[1:38:12] irunonpho: cool
+[1:45:43] Nathan Barnfield: Its updated
+[1:51:24] irunonpho: ok
+[1:51:26] irunonpho: cool
+[2:05:45] irunonpho: ok
+[2:05:51] irunonpho: I finished the Seeds
+[2:05:58] Nathan Barnfield: Cool
+[2:06:01] irunonpho: 1840
+[2:06:03] irunonpho: seeds
+[2:06:08] irunonpho: for 17 kbs
+[2:06:09] irunonpho: worth
+[2:06:17] irunonpho: and the seeds should have a good distribution
+[2:06:24] irunonpho: so on startup
+[2:06:36] irunonpho: it should work like a charm
+[2:06:57] irunonpho: can you brief me on how jacobs
+[2:07:03] irunonpho: file io method works?
+[2:07:17] irunonpho: I can modify my data file
+[2:07:24] irunonpho: if he has it in a peculiar way
+[2:07:34] irunonpho: each number is separated by a new line character
+[2:11:51] irunonpho: how do I upload a file on GitHub?
+[2:13:00] irunonpho: nvmind
+[2:13:02] irunonpho: i did it
+[2:13:03] irunonpho: already
+[2:13:15] Nathan Barnfield: You install github on your comp then use either the shell or the program to commit changes to the master branch.After doing a commit you have to sync
+[2:13:20] irunonpho: i used the shell
+[2:13:22] irunonpho: and just copied an dpaste
+[2:13:25] irunonpho: my results
+[2:13:30] irunonpho: Seeds.txt
+[2:13:53] irunonpho: not sure though
+[2:13:59] irunonpho: that mips would read it line by line
+[2:14:09] irunonpho: I may need to edit my Seeds data file
+[2:14:46] irunonpho: how can I go about making Seeds.txt readable?
+[2:19:39] Nathan Barnfield: Is it asci charachters or actually integers?
+[2:19:42] irunonpho: ascii
+[2:19:44] irunonpho: btw
+[2:20:04] irunonpho: i tried running main
+[2:20:09] irunonpho: and i still get the address error
+[2:21:26] irunonpho: I'm going to have to implement a string to int
+[2:21:32] irunonpho: method
+[2:23:01] Nathan Barnfield: Yeah. Where is the address error line?
+[2:23:44] irunonpho: 0x004005f0
+[2:28:29] Nathan Barnfield: What ibstruction line
+[2:28:35] Nathan Barnfield: Instruction*
+[2:30:08] irunonpho: line 505
+[2:34:14] Nathan Barnfield: You have to have the bytecode and wordlist files in the same directory as your mars program
+[2:35:47] irunonpho: yes
+[2:35:49] irunonpho: it is
+[2:40:26] Nathan Barnfield: Wierd. Its not throwing errors for me. Try resyncing and reloading the main
+[2:43:47] irunonpho: yeah
+[2:43:49] irunonpho: i restarted it
+[2:44:00] irunonpho: any particular settings i need to run this on
+[2:44:01] irunonpho: ?
+[2:44:47] Nathan Barnfield: nah. The only thing is it only finds words that are 9 letters long because i forgot to get ridbof the newline in my function. Fixing it right now.
+[2:45:00] Nathan Barnfield: And it also doesnt scramble the letters
+[2:45:04] irunonpho: yeah
+[2:45:08] irunonpho: I'll take care of that
+[2:45:39] irunonpho: The key letter has already been implemented
+[2:45:41] irunonpho: right?
+[2:46:27] Nathan Barnfield: Yeah the middle letter is in the middle
+[2:48:30] irunonpho: I can't see it unfortunately
+[2:48:32] irunonpho: :(
+[2:48:39] irunonpho: because it's not working for me
+[2:50:10] irunonpho: tried redownloading it
+[2:50:12] irunonpho: same error
+[2:51:03] irunonpho: I can probably only give you my random number method at this point.
+[2:51:03] irunonpho: lol
+[2:51:22] irunonpho: and I can implement part of the scramble method
+[2:51:30] irunonpho: but I can't see it
+[2:51:39] irunonpho: or would be able to
+[2:52:59] Nathan Barnfield: Is it given you a specific error?
+[2:53:03] irunonpho: 505
+[2:53:04] irunonpho: line 505
+[2:53:09] irunonpho: address out of range
+[2:54:00] Nathan Barnfield: here one sec, ill sendyou my main directly. Line 505 for me is something that does not deal with memory so we most likely do not have the same code
+[2:54:31] irunonpho: ok
+[2:54:32] irunonpho: thanks
+[2:54:48] irunonpho: send it through skype
+[2:55:07] ***  ***
+[2:57:00] irunonpho: same error
+[2:57:17] irunonpho: it's reading the file
+[2:57:19] irunonpho: all right
+[2:57:26] irunonpho: just this error
+[2:57:38] Nathan Barnfield: beq $t0, 13, endCreateWordList #end if reached the end
+[2:57:41] Nathan Barnfield: this line?
+[2:57:46] Nathan Barnfield: this is my 505
+[2:58:10] irunonpho: 506
+[2:58:23] irunonpho:      sb $t0, ($s1) # else store current character
+[2:59:11] Nathan Barnfield: ugh
+[2:59:45] Nathan Barnfield: does it lag up or does it go straight to that error?
+[3:00:04] irunonpho: go straight
+[3:00:05] irunonpho: to error
+[3:00:30] Nathan Barnfield: ok so its not iterating through the whole wordlist then.
+[3:00:39] irunonpho: yes
+[3:00:57] Nathan Barnfield: one sec
+[3:01:41] Nathan Barnfield: letterString: .space 9
+[3:01:46] Nathan Barnfield: do you have that at the top in .data?
+[3:02:05] irunonpho: yes
+Nathan Barnfield
+[3:03:26] Nathan Barnfield: that's what yours looks like right?
+[3:04:25] irunonpho: yes
+[3:07:29] Nathan Barnfield: welp
+[3:07:51] Nathan Barnfield: and you have byteCode5 and wordList4 ?
+[3:07:55] Nathan Barnfield: nvm
+[3:08:01] Nathan Barnfield: that would have stopped earlier if you didnt
+[3:08:07] irunonpho: yep
+[3:08:16] irunonpho: the address of letterstring
+[3:20:57] irunonpho: yeah
+[3:21:02] irunonpho: i can't get this to work
+[3:21:08] irunonpho: I implemented my string file though
+[3:21:13] irunonpho: i mean
+[3:21:15] irunonpho: inputing
+[3:21:16] irunonpho: my seed file
+[3:21:23] irunonpho: I'm just going to make the methods
+[3:21:24] irunonpho: then
+[3:21:35] irunonpho: going to be hard
+[3:21:37] Nathan Barnfield: ok, I can just splice them into mine
+[3:21:38] irunonpho: basically blind
+[3:21:43] irunonpho: yeah
+[3:21:45] irunonpho: it's weird
+[4:29:53] Nathan Barnfield: ok I'm going to bed, will work on this in the afternoon
+[4:30:09] irunonpho: alright
+[4:30:12] irunonpho: will send in what i got
+[5:10:58] irunonpho: I recommend
+[5:11:01] irunonpho: to save memory
+[5:11:11] irunonpho: loading seeds.txt into the wordslist
+[5:11:20] irunonpho: then overwriting it
+[5:11:26] irunonpho: once a seed is found
+[5:11:51] irunonpho: the seeds are always 8 digits
+[5:39:34] irunonpho: Random Seed works
+[5:39:51] irunonpho: Putting up new  main soon
+[7:40:19] irunonpho: alright
+[7:40:20] irunonpho: i'm done
+[7:40:23] irunonpho: you may need to debug
+[7:40:28] irunonpho: i'm busy all day
+[7:40:38] irunonpho: it should work
+[7:41:18] irunonpho: ps, Nathan not sure how you want to use random numbers
+[7:41:25] irunonpho: but you can modify randomnumbers method
+[7:41:33] irunonpho: and call the method
+[7:41:37] irunonpho: when you want a random number
