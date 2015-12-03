@@ -549,6 +549,8 @@ print_found_words:	la $t1, wordListAddr			#load the address of the array holding
 			la $a0, foundWordsString
 			li $v0, 4
 			syscall
+			la $a0, newLine
+			syscall
 			
 printLoop:		lbu $t2, 0($t1)				#load the next character in the foudn words list
 			beqz $t2, finishPrint			#if null, the list is complete and jump to the finish portion of this function
