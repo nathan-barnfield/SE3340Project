@@ -16,6 +16,7 @@ seedJumpTable:		.space		40000		#room for the offsets of 9 letter words in the wo
 .align 2
 wordListAddr: 		.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
 newLine: 		.asciiz		"\n"
+foundWordsString:	.asciiz 	"These are the words you found: "
 ####################################################################
 nl: .asciiz "\n"
 space: .asciiz "   "
@@ -30,7 +31,7 @@ badWordPrompt: .asciiz "This word isn't valid!\n"
 endTimePrompt: .asciiz "Sorry, you're out of time, "
 endingPrompt: .asciiz "Game Over!\nYour score is "
 fullWordPrompt: .asciiz "Your nine letter word was: "
-userInput: .space 10
+userInput: .space 11
 fullWord: .space 11
 letterString: .space 9
 middleLetter: .space 2
@@ -75,7 +76,7 @@ main:
 	#Actual game starts here
 UI:	jal UIPrint #subroutine to print the UI
 	la $a0, userInput #Get user input
-	la $a1, 10 #max input is 9
+	la $a1, 11 #max input is 9
 	li $v0, 8
 	syscall
 	
@@ -106,11 +107,9 @@ notMiddle: addi $a0, $a0, 1 #Increment pointer and counter
 counterEnd:
 	beqz $s2, badWord
 	li $a1, 0
-	addi $a1, $s1, 0 #load number of letters in argument to choose which file to check
-	jal find #Calls function to check word, stores if found (1) or not(0) in $a1
-	move $a0, $a1
-	li $v0, 1
-	syscall
+	addi $a1, $s1, 0		#load number of letters in argument to choose which file to check
+	jal find			#Calls function to check word, stores if found (1) or not(0) in $a1
+
 	beqz $a1, badWord #If not found, bad word
 	la $a0, goodWordPrompt #Else, print valid prompt and add points and seconds to timer
 	li $v0, 4
@@ -291,7 +290,10 @@ end:
 	syscall
 	la $a0, fullWord
 	syscall
-	
+	la $a0, newLine
+	syscall
+	jal print_found_words
+	j exit
 #############################################################################################################
 # FileInput code for inputing the byteCode data(9 letter indexs) and the wordlist
 #############################################################################################################
@@ -314,7 +316,7 @@ fileInput:	li   $v0, 13       # system call for open file
 		move $a0, $s6      # file descriptor to close
 		syscall            # close file
 
-##############################################################################################
+
 		li   $v0, 13       # system call for open file
 		la   $a0, fin1      # board file name
 		li   $a1, 0        # Open for reading
@@ -343,7 +345,20 @@ fileInput:	li   $v0, 13       # system call for open file
 #Found words list (placed in the 2nd word of wordListAddr) if the word is found. If the word is not found, returns -1 in $v0
 ##############################################################################################################################################
 
-find:		la $t1, wordListAddr
+find:
+		la $t2, userInput
+		move $t5, $zero
+		li $t4, 10
+remove:		lb $t3, 0($t2)
+		addi $t2, $t2, 1
+		addi $t5, $t5, 1
+		bnez $t3, remove
+		beq $t4, $t5, skip
+		addi $t2, $t2, -2
+		sb $zero, 0($t2)
+skip:
+		
+		la $t1, wordListAddr
 		lw $t2, 0($t1)			#store the address of the new wordlist
 		la $t4, compareString
 		la $t3, userInput
@@ -353,9 +368,8 @@ stringLenLoop:	lbu $t5, 0($t3)
 		beqz $t5, compareLoop
 		addi $t3, $t3, 1			##this loop finds the # of letters in the userInputString
 		addi $t9, $t9, 1
-		
 		j stringLenLoop
-		
+
 compareLoop:	
 
 		la $t4, compareString
@@ -531,6 +545,10 @@ endCreateWordList:
 print_found_words:	la $t1, wordListAddr			#load the address of the array holding the found words base address
 			la $t3, printString			#load the address of the string we are going to use to print the words with
 			lw $t1, 4($t1)				#load the base address of the found words list from the wordListAddr array
+			
+			la $a0, foundWordsString
+			li $v0, 4
+			syscall
 			
 printLoop:		lbu $t2, 0($t1)				#load the next character in the foudn words list
 			beqz $t2, finishPrint			#if null, the list is complete and jump to the finish portion of this function
