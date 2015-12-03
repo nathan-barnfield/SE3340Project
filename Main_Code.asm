@@ -15,6 +15,7 @@ newWordList:		.space 		11000
 seedJumpTable:		.space		40000		#room for the offsets of 9 letter words in the wordlist. 9620 words * 4 bytes = 38480
 .align 2
 wordListAddr: 		.space 		12		#1st word = new wordlist, 2nd word = FoundWordlist, 3rd word = FoundWordList pointer
+newLine: 		.asciiz		"\n"
 ####################################################################
 nl: .asciiz "\n"
 space: .asciiz "   "
@@ -38,12 +39,17 @@ placeholder: .asciiz "jacobsuks"
 
 .text
 main:
+	
+	
+	
+	
 	#Print Greeting
 	la $a0, greeting
 	li $v0, 4
 	syscall
 	
 	#Call function to get pick word group & letters/middle letter
+	jal fileInput
 	li $a0, 3	##placeholder #. Need a random number to be entered here
 	jal create_wordlist#startup
 	
@@ -441,12 +447,12 @@ findEnd:		li $v0, 1				##return successful
 
 create_wordlist:
 		move $t1, $a0				## move random number to $t1
-	#	li $a0, 11000				## make room for 11k bytes
-	#	li $v0, 9
-	#	syscall
+		li $a0, 11000				## make room for 11k bytes
+		li $v0, 9
+		syscall
 		la $t2, wordListAddr
-	#	sw $v0, 0($t2)				## store the new wordlist address to wordListAddr for later retrieval
-	#	move $t7, $v0
+		sw $v0, 0($t2)				## store the new wordlist address to wordListAddr for later retrieval
+		move $t7, $v0
 		
 		
 		li $a0, 11000				## make room for 11k bytes
@@ -462,39 +468,28 @@ nullFoundWordsLoop:	sb $zero, 0($v0)
 			addi $t3, $t3, 1
 			bne $t3, 10999, nullFoundWordsLoop
 		
-		move $a0, $t1
-		li $v0, 1
-		syscall
-		
 		sll $t1, $t1, 2 			## multiple the random number by 4 so that you can jump straight to the 9 letter word offset in the data file
-		
-		move $a0, $t1
-		li $v0, 1
-		syscall
-		
+	
 		la $t3, seedJumpTable
 		add $t3, $t3, $t1			## add the offset to the base address
 		lw $t4, 0($t3)				## retrieve the 9 letter word offset and place it in $t4
 		la $t3, completeWordList
 		
-		#move $a0, $t4
-		#li $v0, 1
-		#syscall
-		
-		#addi $a0, $zero, 1500000
-		#li $v0, 32
-		#syscall
 		add $t4, $t3, $t4			##store the address of the 9 letter word list to be retrieved in $t4
-		la $t7, newWordList
+		
 		move $a0, $t7
 		li $v0, 1
 		syscall
+		add $t3, $zero, $zero
 		
 copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlist into the new wordlist
 		sb $t1, 0($t7)
+		addi $t3, $t3, 1
 		addi $t4, $t4, 1			##incremement both addresses by 1
 		addi $t7, $t7, 1
-		bne $t1, 30, copyLoop			##loop back if the character isnt the record seperator character(30)
+		beq $t1, 30, outsideLoop#copyLoop			##loop back if the character isnt the record seperator character(30)
+		j copyLoop
+outsideLoop:
 		
 ########################################################
 ##Code taken from Jacobs startup function
@@ -524,7 +519,8 @@ copyLoop:	lbu $t1, 0($t4)				##retrieve and store character from the old wordlis
 		addi $s4, $s4, 1
 		j copyDataLoop
 		
-endCreateWordList:	la $a1, letterString
+endCreateWordList:
+			la $a1, letterString
 			jr $ra					##return to caller
 		
 ##############################################################################################################################################
